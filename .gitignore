@@ -1,6 +1,6 @@
 # Extra ipython stuff
 seabreeze_server/.ipynb_checkpoints/
-
+seabreeze_server/__pycache__/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
