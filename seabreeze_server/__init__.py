@@ -1,5 +1,4 @@
-import .utils#seabreeze_server.utils
-import .server#seabreeze_server.server
-import .client#seabreeze_server.client
+from .server import SeaBreezeServer#seabreeze_server.server
+from .client import SeaBreezeClient#seabreeze_server.client
 
-__all__ = ['server','client']
+__all__ = ['SeaBreezeServer','SeaBreezeClient']

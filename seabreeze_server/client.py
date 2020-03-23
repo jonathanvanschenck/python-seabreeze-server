@@ -1,39 +1,31 @@
-import socket
-from utils import Request, Response
+from remote_object.client import Client
 
-__all__ = ['MessageSocket','Client']
-
-BUFFER_SIZE = 1024
-
-class Client:
-    def __init__(self,ip,port):
-        self.ip,self.port = ip,port
+class SeaBreezeClient(Client):
+    """The SeaBreezeClient class
+    
+    A thin wrapper of the `remote_object.client.Client`
+    class
+    
+    :param HOST: str
+        A string for the host address of the server
         
-    def send_request(self,request):
-        socket = MessageSocket(self.ip,self.port)
-        rmsg = socket.send_message(request.encode())
-        socket.close()
-        return Response.from_msg(rmsg)
+    :param PORT: int
+        An integer for the port of the 
+    """
+    def __init__(self,HOST,PORT):
+        Client.__init__(self,HOST,PORT)
 
-class MessageSocket(socket.socket):
-    def __init__(self,ip,port):
-        socket.socket.__init__(self,socket.AF_INET,socket.SOCK_STREAM)
-        self.connect((ip,port))
-        
-    def send_message(self,msg):
-        self.sendall(msg)
-        self.buffer = b''
-        while True:
-            rmsg = self.recv(BUFFER_SIZE)
-            if rmsg == b'':
-                break
-            self.buffer = self.buffer + rmsg
-        return self.buffer
-        
 
+# Testing
 if __name__ == "__main__":
     HOST, PORT = 'localhost', 9999
-    client = Client(HOST, PORT)
-    print(client.send_request(Request.from_function_call("get_integration_time_micros")))
-    print(client.send_request(Request.from_function_call("set_integration_time_micros",100)))
-    print(client.send_request(Request.from_function_call("get_intensities")))
+    client = SeaBreezeClient(HOST, PORT)
+    print("repr:",client)
+    print("dev_list:",client.list_devices())
+    client.select_spectrometer(0)
+    print("serial num:",client.serial_number())
+    print("Setting Integration Time : 10 ms")
+    client.set_integration_time_micros(10*1000)
+    print("intensities: ",client.get_intensities())
+    client.deselect_spectrometer()
+    #client.serial_number() # Raise SeaTeaseError
