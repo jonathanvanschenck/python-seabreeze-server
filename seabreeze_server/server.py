@@ -1,3 +1,6 @@
+"""
+:Author: Jonathan D. B. Van Schenck
+"""
 import remote_object
 
 __all__ = ['SpectrometerManager','SeaBreezeServer']

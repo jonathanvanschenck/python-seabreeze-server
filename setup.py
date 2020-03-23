@@ -6,10 +6,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="seabreeze-server",
-    version="0.1",
+    version="0.1.1",
     author="Jonathan D B Van Schenck",
     author_email="vanschej@oregonstate.edu",
-    description="A software emulator for the `python-seabreeze` package",
+    description="A TCP server to host the `python-seabreeze.cseabreeze` backend",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/jonathanvanschenck/python-seabreeze-server",

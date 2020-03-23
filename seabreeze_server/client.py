@@ -1,3 +1,6 @@
+"""
+:Author: Jonathan D. B. Van Schenck
+"""
 from remote_object.client import Client
 
 class SeaBreezeClient(Client):
