@@ -68,7 +68,7 @@ file and append the following:
 stream {
     server {
         listen 8001; # listen for external request
-        forward_proxy 127.0.0.1:8002; # forward to localhost:8002
+        proxy_pass 127.0.0.1:8002; # forward to localhost:8002
     }
 }
 
