@@ -1,0 +1,7 @@
+future==0.18.2
+numpy==1.18.2
+pkg-resources==0.0.0
+remote-object==0.2.1
+seabreeze==1.0.1
+seabreeze-server==0.1.1
+seatease==0.3
