@@ -2,4 +2,4 @@ future==0.18.2
 numpy==1.18.2
 remote-object==0.2.1
 seabreeze==1.0.1
-seatease==0.3
+seatease==0.3.2
