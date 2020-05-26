@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="seabreeze-server",
-    version="0.1.1",
+    version="0.1.4",
     author="Jonathan D B Van Schenck",
     author_email="vanschej@oregonstate.edu",
     description="A TCP server to host the `python-seabreeze.cseabreeze` backend",
@@ -21,7 +21,5 @@ setuptools.setup(
     ],
     python_requires='>=3.6',
     setup_requires = ['numpy'],
-    install_requires = ['numpy>=1.18.2','future>=0.18.2',
-                        'remote_object>=0.2.1','seabreeze>=1.0.1',
-                        'seatease>=0.3']
+    install_requires = [s.strip().replace("==",">=") for s in open("requirements.txt")]
 )
