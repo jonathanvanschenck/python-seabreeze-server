@@ -79,13 +79,10 @@ class SpectrometerManager:
     """
     def __init__(self,emulate=False):
         if emulate:
-            import seatease as sb
-            self._sb = sb
-            self._backend = self._sb.cseatease.SeaTeaseAPI
+            from seatease.cseatease import SeaTeaseAPI as API
         else:
-            import seabreeze as sb
-            self._sb = sb
-            self._backend = self._sb.cseabreeze.SeaBreezeAPI
+            from seabreeze.cseabreeze import SeaBreezeAPI as API
+        self._backend = API
 
         self.deselect_spectrometer()
 
@@ -114,9 +111,16 @@ class SpectrometerManager:
             The default is 0--the first device.
         """
         try:
-            self._dev = self._backend.list_devices()[index]
+            self._dev = self._backend().list_devices()[index]
         except IndexError:
-            raise SeaBreezeServerError("Invalid Device Index: Device {} is absent".format(i))
+            raise SeaBreezeServerError("Invalid Device Index: Device {} is absent".format(index))
+        self._dev.open()
+
+    @property
+    def dev(self):
+        if self._dev is None:
+            raise SeaBreezeServerError("No device selected, try .select_spectrometer()")
+        return self._dev
 
     def deselect_spectrometer(self):
         """Deselects the current spectrometer
@@ -126,6 +130,10 @@ class SpectrometerManager:
         not cause other API calls to make weird errors, but
         rather all return the same 'no selected device' error.
         """
+        try:
+            self._dev.close()
+        except AttributeError:
+            pass
         self._dev = None
 
     def list_devices(self):
@@ -138,7 +146,7 @@ class SpectrometerManager:
         this function only returns the string.
 
         If the actual list of device instances is required, they
-        are accessible via `._backend.list_devices()`, but this
+        are accessible via `._backend().list_devices()`, but this
         is not typically used
 
         Returns
@@ -148,7 +156,7 @@ class SpectrometerManager:
             `SeaBreezeDevice`
 
         """
-        return [str(dev) for dev in self._backend.list_devices()]
+        return [str(dev) for dev in self._backend().list_devices()]
 
     def device_call(self,fname,*args,**kwargs):
         """Make a cseabreeze backend device API call
