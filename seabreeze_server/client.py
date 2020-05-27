@@ -2,7 +2,6 @@
 :Author: Jonathan D. B. Van Schenck
 """
 from remote_object.client import Client
-from server import SeaBreezeServerError
 
 class SeaBreezeClient(Client):
     """The SeaBreezeClient class
@@ -18,21 +17,3 @@ class SeaBreezeClient(Client):
     """
     def __init__(self,HOST,PORT):
         Client.__init__(self,HOST,PORT)
-
-
-# Testing
-if __name__ == "__main__":
-    HOST, PORT = 'localhost', 9999
-    client = SeaBreezeClient(HOST, PORT)
-    print("repr:",client)
-    print("dev_list:",client.list_devices())
-    client.select_spectrometer(0)
-    print("serial num:",client.serial_number())
-    print("Setting Integration Time : 10 ms")
-    client.set_integration_time_micros(10*1000)
-    print("intensities: ",client.get_intensities())
-    client.deselect_spectrometer()
-    try:
-        client.serial_number() # Raise SeaBreezeServerError
-    except SeaBreezeServerError as e:
-        print("Caught Error",e)

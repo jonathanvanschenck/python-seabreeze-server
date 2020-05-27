@@ -1,22 +1,30 @@
 # Seabreeze-Server
-A python TCP-Server which allows a OceanOptics Spectrometer to be connected to 
+A python TCP-Server which allows a OceanOptics Spectrometer to be connected to
 over a network
 
 The purpose of this library is to allow OceanOptics spectrometers to be
 effectively wifi-enabled, so that data-aquisition can be handled by multiple
 computers (some potentially offsite), without having to fiddle with usb cords.
-Additionally, this opens up the possibility for open-source, web-based user 
+Additionally, this opens up the possibility for open-source, web-based user
 interfaces to be developed for OceanOptics devices.
 
 This package uses the `seabreeze.cseabreeze` backend to handle communications
 between the server and the spectrometer, by exposing the backend API functions
 to the `seabreeze_server.server.SpectrometerManager` object. (Alternatively,
-a physical spectrometer can also be emulated in software with the 
+a physical spectrometer can also be emulated in software with the
 `seatease` package, but setting `SpectrometerManager(emulate=True)`). The TCP
-server is handled by the `seabreeze_server.server.SeaBreezeServer` class 
-(based on the `remote-object` package), which exposes the `SpectrometerManager` 
+server is handled by the `seabreeze_server.server.SeaBreezeServer` class
+(based on the `remote-object` package), which exposes the `SpectrometerManager`
 object's methods and attributes to `seabreeze_server.client.SeaBreezeClient`
 instances.
+
+# Security Note
+ONLY INTERACT WITH SERVERS THAT YOU TRUST. The `seabreeze_server.client.Client`
+object uses `pickle.load` to deserialize data and objects from the server. This
+process is able to execute arbitrary code on your machine. This can easily be
+exploited by malicious agents to compromise your system. The `pickle` library,
+and by extension `python-seabreeze-server`, leave it to the user to make wise
+decisions about what they chose to unpickle. Be smart.
 
 # Basic Use
 On the server-side, connect and configure your spectrometer hardware for
@@ -62,11 +70,11 @@ i = client.get_intensities()
  $ pip install seabreeze-server
 ```
 If you haven't previously installed `seabreeze`, you might need to do a bit of
-work, see 'SeaBreeze Setup' below for more details. 
+work, see 'SeaBreeze Setup' below for more details.
 
 # SeaBreeze Setup
 Installing `seabreeze` can take some trial an error, especially on linux,
-make sure that after `pip` installing (or `conda` installing, whatever, 
+make sure that after `pip` installing (or `conda` installing, whatever,
 you do you) you are also run the os setup script:
 ```bash
  $ pip install seabreeze
@@ -89,7 +97,7 @@ virtual environment in the main directory:
 
 ## Creating source packages
 ```bash
- (venv) $ python3 setup.py sdist bdist_wheel 
+ (venv) $ python3 setup.py sdist bdist_wheel
 ```
 
 ## Uploading to PyPI
@@ -100,7 +108,7 @@ virtual environment in the main directory:
 See: [https://packaging.python.org/tutorials/packaging-projects/]
 
 # Acknowledgements
-The authors would like to thank [Andreas Poehlmann](https://github.com/ap--) 
-and collaborators for creating the original `python-seabreeze` package, 
-which this library depends heavily upon. His package has been indispensable 
+The authors would like to thank [Andreas Poehlmann](https://github.com/ap--)
+and collaborators for creating the original `python-seabreeze` package,
+which this library depends heavily upon. His package has been indispensable
 to our research.

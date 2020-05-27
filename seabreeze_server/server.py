@@ -2,16 +2,9 @@
 :Author: Jonathan D. B. Van Schenck
 """
 import remote_object
+from .errors import SeaBreezeServerError
 
 __all__ = ['SpectrometerManager','SeaBreezeServer']
-
-class SeaBreezeServerError(Exception):
-    """Base `SeaBreezeServerError`
-
-    This is the main exception class which is raised for
-    all errors resulting from server issues.
-    """
-    pass
 
 class SeaBreezeServer(remote_object.server.Server):
     def __init__(self,server_address,emulate=True):
@@ -291,11 +284,3 @@ class SpectrometerManager:
     @property
     def serial_number(self):
         return self.device_call("serial_number")
-
-
-# Testing
-if __name__ == "__main__":
-    HOST, PORT = 'localhost', 9999
-    with SeaBreezeServer((HOST, PORT), emulate=True) as server:
-        print("Hosting at:",HOST,"|",PORT)
-        server.serve_forever()

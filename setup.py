@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="seabreeze-server",
-    version="0.1.4",
+    version="0.2.0",
     author="Jonathan D B Van Schenck",
     author_email="vanschej@oregonstate.edu",
     description="A TCP server to host the `python-seabreeze.cseabreeze` backend",
