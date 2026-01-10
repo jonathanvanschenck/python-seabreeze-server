@@ -1,4 +1,4 @@
-future==0.18.2
+future==1.0.0
 numpy==1.18.2
 remote-object==0.2.4
 seabreeze==1.0.1
